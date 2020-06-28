@@ -1,0 +1,351 @@
+<?xml version="1.0"?>
+<robot name="nexus_4wd_mecanum" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:property name="PI" value="3.1415926535897931" />
+
+  <xacro:property name="wheel_radius" value="0.050" />
+  <xacro:property name="wheel_width" value="0.0505" />
+
+  <material name="yellow"><color rgba="0.8 0.8 0.0 1.0" /></material>
+  <material name="black"><color rgba="0.15 0.15 0.15 1.0" /></material>
+  <material name="dark_grey"><color rgba="0.2 0.2 0.2 1.0" /></material>
+  <material name="light_grey"><color rgba="0.4 0.4 0.4 1.0" /></material>
+
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nexus_4wd_mecanum_description/meshes/nexus_base_link.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="yellow" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://nexus_4wd_mecanum_description/meshes/nexus_base_link_collision.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <!-- TODO Compute inertia based on cylinder -->
+      <origin xyz="0.0 0.0 0.0255" rpy="0 0 0"/>
+      <mass value="2.0"/>
+      <inertia
+        ixx="4.4744" ixy="0.03098" ixz="0.003647"
+        iyy="7.1624" iyz="0.1228"
+        izz="4.6155"/>
+    </inertial>
+  </link>
+
+  <joint name="upper_left_wheel_shaft_joint" type="fixed">
+    <origin xyz="0.150 0.108 0.0" rpy="0 0 0" />
+    <parent link="base_link"/>
+    <child link="upper_left_wheel_shaft" />
+  </joint>
+
+  <link name="upper_left_wheel_shaft">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nexus_4wd_mecanum_description/meshes/wheel_shaft.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://nexus_4wd_mecanum_description/meshes/wheel_shaft.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+      <mass value="0.0"/>
+      <!-- TODO Compute inertia based on cylinder -->
+      <inertia
+        ixx="4.4744" ixy="0.03098" ixz="0.003647"
+        iyy="7.1624" iyz="0.1228"
+        izz="4.6155"/>
+    </inertial>
+  </link>
+
+  <joint name="lower_left_wheel_shaft_joint" type="fixed">
+    <origin xyz="-0.150 0.108 0.0" rpy="0 0 0" />
+    <parent link="base_link"/>
+    <child link="lower_left_wheel_shaft" />
+  </joint>
+
+  <link name="lower_left_wheel_shaft">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nexus_4wd_mecanum_description/meshes/wheel_shaft.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://nexus_4wd_mecanum_description/meshes/wheel_shaft.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+      <mass value="0.0"/>
+      <!-- TODO Compute inertia based on cylinder -->
+      <inertia
+        ixx="4.4744" ixy="0.03098" ixz="0.003647"
+        iyy="7.1624" iyz="0.1228"
+        izz="4.6155"/>
+    </inertial>
+  </link>
+
+  <joint name="upper_right_wheel_shaft_joint" type="fixed">
+    <origin xyz="0.150 -0.108 0.0" rpy="${PI} 0 0" />
+    <parent link="base_link"/>
+    <child link="upper_right_wheel_shaft" />
+  </joint>
+
+  <link name="upper_right_wheel_shaft">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nexus_4wd_mecanum_description/meshes/wheel_shaft.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://nexus_4wd_mecanum_description/meshes/wheel_shaft.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+      <mass value="0.0"/>
+      <!-- TODO Compute inertia based on cylinder -->
+      <inertia
+        ixx="4.4744" ixy="0.03098" ixz="0.003647"
+        iyy="7.1624" iyz="0.1228"
+        izz="4.6155"/>
+    </inertial>
+  </link>
+
+  <joint name="lower_right_wheel_shaft_joint" type="fixed">
+    <origin xyz="-0.150 -0.108 0.0" rpy="${PI} 0 0" />
+    <parent link="base_link"/>
+    <child link="lower_right_wheel_shaft" />
+  </joint>
+
+  <link name="lower_right_wheel_shaft">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nexus_4wd_mecanum_description/meshes/wheel_shaft.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://nexus_4wd_mecanum_description/meshes/wheel_shaft.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+      <mass value="0.0"/>
+      <!-- TODO Compute inertia based on cylinder -->
+      <inertia
+        ixx="4.4744" ixy="0.03098" ixz="0.003647"
+        iyy="7.1624" iyz="0.1228"
+        izz="4.6155"/>
+    </inertial>
+  </link>
+
+  <joint name="upper_left_wheel_joint" type="fixed">
+    <origin xyz="0 0.042 0" rpy="0 0 0" />
+    <parent link="upper_left_wheel_shaft"/>
+    <child link="upper_left_wheel" />
+  </joint>
+
+  <link name="upper_left_wheel">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nexus_4wd_mecanum_description/meshes/mecanum_wheel_left.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="light_grey" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
+      <geometry>
+        <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+      <mass value="0.0"/>
+      <!-- TODO Compute inertia based on cylinder -->
+      <inertia
+        ixx="4.4744" ixy="0.03098" ixz="0.003647"
+        iyy="7.1624" iyz="0.1228"
+        izz="4.6155"/>
+    </inertial>
+  </link>
+
+  <joint name="lower_left_wheel_joint" type="fixed">
+    <origin xyz="0 0.042 0" rpy="0 0 0" />
+    <parent link="lower_left_wheel_shaft"/>
+    <child link="lower_left_wheel" />
+  </joint>
+
+  <link name="lower_left_wheel">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nexus_4wd_mecanum_description/meshes/mecanum_wheel_right.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="light_grey" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
+      <geometry>
+        <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+      <mass value="0.0"/>
+      <!-- TODO Compute inertia based on cylinder -->
+      <inertia
+        ixx="4.4744" ixy="0.03098" ixz="0.003647"
+        iyy="7.1624" iyz="0.1228"
+        izz="4.6155"/>
+    </inertial>
+  </link>
+<!-- -->
+
+  <joint name="upper_right_wheel_joint" type="fixed">
+    <origin xyz="0 0.042 0" rpy="0 0 0" />
+    <parent link="upper_right_wheel_shaft"/>
+    <child link="upper_right_wheel" />
+  </joint>
+
+  <link name="upper_right_wheel">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nexus_4wd_mecanum_description/meshes/mecanum_wheel_right.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="light_grey" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
+      <geometry>
+        <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+      <mass value="0.0"/>
+      <!-- TODO Compute inertia based on cylinder -->
+      <inertia
+        ixx="4.4744" ixy="0.03098" ixz="0.003647"
+        iyy="7.1624" iyz="0.1228"
+        izz="4.6155"/>
+    </inertial>
+  </link>
+
+  <joint name="lower_right_wheel_joint" type="fixed">
+    <origin xyz="0 0.042 0" rpy="0 0 0" />
+    <parent link="lower_right_wheel_shaft"/>
+    <child link="lower_right_wheel" />
+  </joint>
+
+  <link name="lower_right_wheel">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://nexus_4wd_mecanum_description/meshes/mecanum_wheel_left.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="light_grey" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="${PI/2} 0 0"/>
+      <geometry>
+        <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+      <mass value="0.0"/>
+      <!-- TODO Compute inertia based on cylinder -->
+      <inertia
+        ixx="4.4744" ixy="0.03098" ixz="0.003647"
+        iyy="7.1624" iyz="0.1228"
+        izz="4.6155"/>
+    </inertial>
+  </link>
+
+  <joint name="left_sensor_joint" type="fixed">
+    <origin xyz="0 0.108 0.010" rpy="0 0 ${PI/2}" />
+    <parent link="base_link"/>
+    <child link="left_sensor" />
+  </joint>
+
+  <link name="left_sensor">
+    <visual>
+      <origin xyz="0 0 0" rpy="${PI/2} 0 0" />
+      <geometry>
+        <mesh filename="package://nexus_4wd_mecanum_description/meshes/urm04.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black" />
+    </visual>
+  </link>
+
+  <joint name="front_sensor_joint" type="fixed">
+    <origin xyz="0.205 0 0.010" rpy="0 0 0" />
+    <parent link="base_link"/>
+    <child link="front_sensor" />
+  </joint>
+
+  <link name="front_sensor">
+    <visual>
+      <origin xyz="0 0 0" rpy="${PI/2} 0 0" />
+      <geometry>
+        <mesh filename="package://nexus_4wd_mecanum_description/meshes/urm04.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black" />
+    </visual>
+  </link>
+
+  <joint name="right_sensor_joint" type="fixed">
+    <origin xyz="0 -0.108 0.010" rpy="0 0 ${-PI/2}" />
+    <parent link="base_link"/>
+    <child link="right_sensor" />
+  </joint>
+
+  <link name="right_sensor">
+    <visual>
+      <origin xyz="0 0 0" rpy="${PI/2} 0 0" />
+      <geometry>
+        <mesh filename="package://nexus_4wd_mecanum_description/meshes/urm04.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black" />
+    </visual>
+  </link>
+
+  <joint name="rear_sensor_joint" type="fixed">
+    <origin xyz="-0.201 0 0.010" rpy="0 0 ${PI}" />
+    <parent link="base_link"/>
+    <child link="rear_sensor" />
+  </joint>
+
+  <link name="rear_sensor">
+    <visual>
+      <origin xyz="0 0 0" rpy="${PI/2} 0 0" />
+      <geometry>
+        <mesh filename="package://nexus_4wd_mecanum_description/meshes/urm04.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black" />
+    </visual>
+  </link>
+
+</robot>

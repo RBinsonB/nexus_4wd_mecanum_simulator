@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>nexus_4wd_mecanum_description</name>
+  <version>0.1.0</version>
+  <description>The nexus_4wd_mecanum_description package</description>
+
+  <author email="r-baran@hotmail.fr">Robin Baran</author>
+  <maintainer email="r-baran@hotmail.fr">Robin Baran</maintainer>
+
+  <license>MIT</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>urdf</exec_depend>
+  <exec_depend>kdl_parser</exec_depend>
+
+</package>
