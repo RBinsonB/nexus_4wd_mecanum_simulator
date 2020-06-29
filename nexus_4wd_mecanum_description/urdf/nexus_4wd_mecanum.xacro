@@ -25,13 +25,13 @@
       </geometry>
     </collision>
     <inertial>
-      <!-- TODO Compute inertia based on cylinder -->
-      <origin xyz="0.0 0.0 0.0255" rpy="0 0 0"/>
-      <mass value="2.0"/>
+      <!-- Inertia from CAD model, filled box assumption -->
+      <origin xyz="-0.01103 0 0.002" rpy="0 0 0"/>
+      <mass value="2.844"/>
       <inertia
-        ixx="4.4744" ixy="0.03098" ixz="0.003647"
-        iyy="7.1624" iyz="0.1228"
-        izz="4.6155"/>
+        ixx="0.018819942" ixy="0" ixz="-0.000101519"
+        iyy="0.057333716" iyz="0"
+        izz="0.074201740"/>
     </inertial>
   </link>
 
@@ -56,13 +56,12 @@
       </geometry>
     </collision>
     <inertial>
-      <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-      <mass value="0.0"/>
-      <!-- TODO Compute inertia based on cylinder -->
+      <origin xyz="0 0.01221 0" rpy="0 0 0"/>
+      <mass value="0.055"/>
       <inertia
-        ixx="4.4744" ixy="0.03098" ixz="0.003647"
-        iyy="7.1624" iyz="0.1228"
-        izz="4.6155"/>
+        ixx="0.000021370" ixy="0" ixz="0"
+        iyy="0.000009966" iyz="0"
+        izz="0.000021370"/>
     </inertial>
   </link>
 
@@ -87,13 +86,12 @@
       </geometry>
     </collision>
     <inertial>
-      <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-      <mass value="0.0"/>
-      <!-- TODO Compute inertia based on cylinder -->
+      <origin xyz="0 0.01221 0" rpy="0 0 0"/>
+      <mass value="0.055"/>
       <inertia
-        ixx="4.4744" ixy="0.03098" ixz="0.003647"
-        iyy="7.1624" iyz="0.1228"
-        izz="4.6155"/>
+        ixx="0.000021370" ixy="0" ixz="0"
+        iyy="0.000009966" iyz="0"
+        izz="0.000021370"/>
     </inertial>
   </link>
 
@@ -118,13 +116,12 @@
       </geometry>
     </collision>
     <inertial>
-      <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-      <mass value="0.0"/>
-      <!-- TODO Compute inertia based on cylinder -->
+      <origin xyz="0 0.01221 0" rpy="0 0 0"/>
+      <mass value="0.055"/>
       <inertia
-        ixx="4.4744" ixy="0.03098" ixz="0.003647"
-        iyy="7.1624" iyz="0.1228"
-        izz="4.6155"/>
+        ixx="0.000021370" ixy="0" ixz="0"
+        iyy="0.000009966" iyz="0"
+        izz="0.000021370"/>
     </inertial>
   </link>
 
@@ -149,13 +146,12 @@
       </geometry>
     </collision>
     <inertial>
-      <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-      <mass value="0.0"/>
-      <!-- TODO Compute inertia based on cylinder -->
+      <origin xyz="0 0.01221 0" rpy="0 0 0"/>
+      <mass value="0.055"/>
       <inertia
-        ixx="4.4744" ixy="0.03098" ixz="0.003647"
-        iyy="7.1624" iyz="0.1228"
-        izz="4.6155"/>
+        ixx="0.000021370" ixy="0" ixz="0"
+        iyy="0.000009966" iyz="0"
+        izz="0.000021370"/>
     </inertial>
   </link>
 
@@ -182,11 +178,11 @@
     <inertial>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
       <mass value="0.0"/>
-      <!-- TODO Compute inertia based on cylinder -->
+      <!-- Inertia based on cylinder -->
       <inertia
-        ixx="4.4744" ixy="0.03098" ixz="0.003647"
-        iyy="7.1624" iyz="0.1228"
-        izz="4.6155"/>
+        ixx="0.000324824" ixy="0" ixz="0"
+        iyy="0.000480000" iyz="0"
+        izz="0.000324824"/>
     </inertial>
   </link>
 
@@ -213,14 +209,13 @@
     <inertial>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
       <mass value="0.0"/>
-      <!-- TODO Compute inertia based on cylinder -->
+      <!-- Inertia based on cylinder -->
       <inertia
-        ixx="4.4744" ixy="0.03098" ixz="0.003647"
-        iyy="7.1624" iyz="0.1228"
-        izz="4.6155"/>
+        ixx="0.000324824" ixy="0" ixz="0"
+        iyy="0.000480000" iyz="0"
+        izz="0.000324824"/>
     </inertial>
   </link>
-<!-- -->
 
   <joint name="upper_right_wheel_joint" type="fixed">
     <origin xyz="0 0.042 0" rpy="0 0 0" />
@@ -245,11 +240,11 @@
     <inertial>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
       <mass value="0.0"/>
-      <!-- TODO Compute inertia based on cylinder -->
+      <!-- Inertia based on cylinder -->
       <inertia
-        ixx="4.4744" ixy="0.03098" ixz="0.003647"
-        iyy="7.1624" iyz="0.1228"
-        izz="4.6155"/>
+        ixx="0.000324824" ixy="0" ixz="0"
+        iyy="0.000480000" iyz="0"
+        izz="0.000324824"/>
     </inertial>
   </link>
 
@@ -276,11 +271,11 @@
     <inertial>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
       <mass value="0.0"/>
-      <!-- TODO Compute inertia based on cylinder -->
+      <!-- Inertia based on cylinder -->
       <inertia
-        ixx="4.4744" ixy="0.03098" ixz="0.003647"
-        iyy="7.1624" iyz="0.1228"
-        izz="4.6155"/>
+        ixx="0.000324824" ixy="0" ixz="0"
+        iyy="0.000480000" iyz="0"
+        izz="0.000324824"/>
     </inertial>
   </link>
 
