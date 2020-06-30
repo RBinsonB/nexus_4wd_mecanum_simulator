@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<robot>
+  <gazebo>
+    <!--<plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/</robotNamespace>
+    </plugin>-->
+
+    <plugin name="nexus_ros_force_based_move" filename="libnexus_ros_force_based_move.so">
+      <robotNamespace>/</robotNamespace>
+      <commandTopic>cmd_vel</commandTopic>
+      <odometryTopic>odom</odometryTopic>
+      <odometryFrame>odom</odometryFrame>
+      <odometryRate>25.0</odometryRate>
+      <robotBaseFrame>base_footprint</robotBaseFrame>
+      <cmdVelTimeOut>0.25</cmdVelTimeOut>
+      <publishOdometryTf>0</publishOdometryTf>
+      <yaw_velocity_p_gain>5.0</yaw_velocity_p_gain>
+      <x_velocity_p_gain>100.0</x_velocity_p_gain>
+      <y_velocity_p_gain>100.0</y_velocity_p_gain>
+    </plugin>
+  </gazebo>
+
+  <!-- All static links get collapsed down to base_link in Gazebo, so that's
+       the one to apply the colour to (in Gazebo 5+). -->
+  <gazebo reference="base_footprint">
+    <material>Gazebo/Yellow</material>
+    <gravity>true</gravity>
+  </gazebo>
+
+  <gazebo reference="base_link">
+    <material>Gazebo/Yellow</material>
+  </gazebo>
+
+  <gazebo reference="left_sensor">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+   <gazebo reference="front_sensor">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+   <gazebo reference="right_sensor">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+   <gazebo reference="rear_sensor">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <gazebo reference="upper_left_wheel_shaft">
+    <material>Gazebo/Black</material>
+  </gazebo>  
+
+  <gazebo reference="lower_left_wheel_shaft">
+    <material>Gazebo/Black</material>
+  </gazebo>  
+
+  <gazebo reference="upper_right_wheel_shaft">
+    <material>Gazebo/Black</material>
+  </gazebo>  
+
+  <gazebo reference="lower_right_wheel_shaft">
+    <material>Gazebo/Black</material>
+  </gazebo>  
+
+  <!-- Wheel friction to zero, as movement is handled by applying forces at the body level. -->
+  <gazebo reference="upper_left_wheel">
+    <material>Gazebo/Grey</material>
+    <mu1>0.0</mu1>
+    <mu2>0.0</mu2>
+  </gazebo>
+
+  <gazebo reference="lower_left_wheel">
+    <material>Gazebo/Grey</material>
+    <mu1>0.0</mu1>
+    <mu2>0.0</mu2>
+  </gazebo>
+
+  <gazebo reference="upper_right_wheel">
+    <material>Gazebo/Grey</material>
+    <mu1>0.0</mu1>
+    <mu2>0.0</mu2>
+  </gazebo>
+
+  <gazebo reference="lower_right_wheel">
+    <material>Gazebo/Grey</material>
+    <mu1>0.0</mu1>
+    <mu2>0.0</mu2>
+  </gazebo>
+
+</robot>

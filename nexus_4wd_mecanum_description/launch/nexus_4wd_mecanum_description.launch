@@ -1,4 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-	<param name="robot_description" command="$(find xacro)/xacro.py $(find nexus_4wd_mecanum_description)/urdf/nexus_4wd_mecanum.xacro" />
+	<param name="robot_description" command="$(find xacro)/xacro --inorder $(find nexus_4wd_mecanum_description)/urdf/nexus_4wd_mecanum.xacro" />
+
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 </launch>

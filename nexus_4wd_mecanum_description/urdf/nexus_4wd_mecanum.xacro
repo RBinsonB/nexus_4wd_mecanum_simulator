@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <robot name="nexus_4wd_mecanum" xmlns:xacro="http://ros.org/wiki/xacro">
+
   <xacro:property name="PI" value="3.1415926535897931" />
 
   <xacro:property name="wheel_radius" value="0.050" />
@@ -9,6 +10,14 @@
   <material name="black"><color rgba="0.15 0.15 0.15 1.0" /></material>
   <material name="dark_grey"><color rgba="0.2 0.2 0.2 1.0" /></material>
   <material name="light_grey"><color rgba="0.4 0.4 0.4 1.0" /></material>
+
+  <link name="base_footprint"></link>
+
+  <joint name="base_link_joint" type="fixed">
+    <origin xyz="0 0 0.05" rpy="0 0 0" />
+    <parent link="base_footprint"/>
+    <child link="base_link" />
+  </joint>
 
   <link name="base_link">
     <visual>
@@ -155,12 +164,13 @@
     </inertial>
   </link>
 
-  <joint name="upper_left_wheel_joint" type="fixed">
+  <joint name="upper_left_wheel_joint" type="continuous">
     <origin xyz="0 0.042 0" rpy="0 0 0" />
     <parent link="upper_left_wheel_shaft"/>
     <child link="upper_left_wheel" />
+    <axis xyz="0 1 0"/>
   </joint>
-
+  
   <link name="upper_left_wheel">
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
@@ -177,7 +187,7 @@
     </collision>
     <inertial>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-      <mass value="0.0"/>
+      <mass value="0.3844"/>
       <!-- Inertia based on cylinder -->
       <inertia
         ixx="0.000324824" ixy="0" ixz="0"
@@ -186,10 +196,11 @@
     </inertial>
   </link>
 
-  <joint name="lower_left_wheel_joint" type="fixed">
+  <joint name="lower_left_wheel_joint" type="continuous">
     <origin xyz="0 0.042 0" rpy="0 0 0" />
     <parent link="lower_left_wheel_shaft"/>
     <child link="lower_left_wheel" />
+    <axis xyz="0 1 0"/>
   </joint>
 
   <link name="lower_left_wheel">
@@ -208,7 +219,7 @@
     </collision>
     <inertial>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-      <mass value="0.0"/>
+      <mass value="0.3844"/>
       <!-- Inertia based on cylinder -->
       <inertia
         ixx="0.000324824" ixy="0" ixz="0"
@@ -217,10 +228,11 @@
     </inertial>
   </link>
 
-  <joint name="upper_right_wheel_joint" type="fixed">
+  <joint name="upper_right_wheel_joint" type="continuous">
     <origin xyz="0 0.042 0" rpy="0 0 0" />
     <parent link="upper_right_wheel_shaft"/>
     <child link="upper_right_wheel" />
+    <axis xyz="0 1 0"/>
   </joint>
 
   <link name="upper_right_wheel">
@@ -239,7 +251,7 @@
     </collision>
     <inertial>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-      <mass value="0.0"/>
+      <mass value="0.3844"/>
       <!-- Inertia based on cylinder -->
       <inertia
         ixx="0.000324824" ixy="0" ixz="0"
@@ -247,11 +259,12 @@
         izz="0.000324824"/>
     </inertial>
   </link>
-
-  <joint name="lower_right_wheel_joint" type="fixed">
+  
+  <joint name="lower_right_wheel_joint" type="continuous">
     <origin xyz="0 0.042 0" rpy="0 0 0" />
     <parent link="lower_right_wheel_shaft"/>
     <child link="lower_right_wheel" />
+    <axis xyz="0 1 0"/>
   </joint>
 
   <link name="lower_right_wheel">
@@ -270,7 +283,7 @@
     </collision>
     <inertial>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-      <mass value="0.0"/>
+      <mass value="0.3844"/>
       <!-- Inertia based on cylinder -->
       <inertia
         ixx="0.000324824" ixy="0" ixz="0"
@@ -342,5 +355,8 @@
       <material name="black" />
     </visual>
   </link>
+
+  <!-- Include controller plugin for Gazebo -->
+  <xacro:include filename="$(find nexus_4wd_mecanum_description)/urdf/nexus_4wd_mecanum.gazebo" />
 
 </robot>
