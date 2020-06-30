@@ -162,6 +162,8 @@ namespace gazebo
     rot_ = 0.0;
     alive_ = true;
 
+    ROS_INFO_STREAM("Plugin initialized with x: " << x_ << ", y: " << y_ << ", rot: " << rot_);
+
     odom_transform_.setIdentity();
 
     // Ensure that ROS has been initialized and subscribe to cmd_vel
@@ -219,14 +221,13 @@ namespace gazebo
     link_->AddTorque(math::Vector3(0.0,
                                    0.0,
                                    (rot_ - angular_vel.z) * torque_yaw_velocity_p_gain_));
-
     // float yaw = pose.rot.GetYaw();
 
     math::Vector3 linear_vel = parent_->GetRelativeLinearVel();
-
     link_->AddRelativeForce(math::Vector3((x_ - linear_vel.x)* force_x_velocity_p_gain_,
                                           (y_ - linear_vel.y)* force_y_velocity_p_gain_,
                                           0.0));
+
     //parent_->PlaceOnNearestEntityBelow();
     //parent_->SetLinearVel(math::Vector3(
     //      x_ * cosf(yaw) - y_ * sinf(yaw),
@@ -262,6 +263,7 @@ namespace gazebo
     y_ = cmd_msg->linear.y;
     rot_ = cmd_msg->angular.z;
     last_cmd_vel_time_= parent_->GetWorld()->GetSimTime();
+
   }
 
   void GazeboRosForceBasedMove::QueueThread()
