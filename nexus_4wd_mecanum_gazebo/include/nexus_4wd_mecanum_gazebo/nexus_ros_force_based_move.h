@@ -47,12 +47,12 @@ namespace gazebo {
 
   class GazeboRosForceBasedMove : public ModelPlugin {
 
-    public:
+    public: 
       GazeboRosForceBasedMove();
       ~GazeboRosForceBasedMove();
       void Load(physics::ModelPtr parent, sdf::ElementPtr sdf);
 
-    protected:
+    protected: 
       virtual void UpdateChild();
       virtual void FiniChild();
 
@@ -104,8 +104,12 @@ namespace gazebo {
       double rot_;
       bool alive_;
       common::Time last_odom_publish_time_;
+#if (GAZEBO_MAJOR_VERSION >= 8)
+      ignition::math::Pose3d last_odom_pose_;
+#else
       math::Pose last_odom_pose_;
-
+#endif
+      
       double torque_yaw_velocity_p_gain_;
       double force_x_velocity_p_gain_;
       double force_y_velocity_p_gain_;
@@ -114,5 +118,4 @@ namespace gazebo {
 
 }
 
-#endif /* end of include guard: GAZEBO_ROS_FORCE_BASED_MOVE_HH */
-
+#endif /* end of include guard: GAZEBO_ROS_PLANAR_MOVE_HH */

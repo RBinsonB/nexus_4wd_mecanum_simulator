@@ -25,7 +25,7 @@
 
 #include <nexus_4wd_mecanum_gazebo/nexus_ros_force_based_move.h>
 
-namespace gazebo
+namespace gazebo 
 {
 
   GazeboRosForceBasedMove::GazeboRosForceBasedMove() {}
@@ -34,7 +34,7 @@ namespace gazebo
 
   // Load the controller
   void GazeboRosForceBasedMove::Load(physics::ModelPtr parent,
-      sdf::ElementPtr sdf)
+      sdf::ElementPtr sdf) 
   {
 
     parent_ = parent;
@@ -42,58 +42,58 @@ namespace gazebo
     /* Parse parameters */
 
     robot_namespace_ = "";
-    if (!sdf->HasElement("robotNamespace"))
+    if (!sdf->HasElement("robotNamespace")) 
     {
       ROS_INFO("ForceBasedPlugin missing <robotNamespace>, "
           "defaults to \"%s\"", robot_namespace_.c_str());
     }
-    else
+    else 
     {
-      robot_namespace_ =
+      robot_namespace_ = 
         sdf->GetElement("robotNamespace")->Get<std::string>();
     }
 
     command_topic_ = "cmd_vel";
-    if (!sdf->HasElement("commandTopic"))
+    if (!sdf->HasElement("commandTopic")) 
     {
       ROS_WARN("ForceBasedPlugin (ns = %s) missing <commandTopic>, "
-          "defaults to \"%s\"",
+          "defaults to \"%s\"", 
           robot_namespace_.c_str(), command_topic_.c_str());
-    }
-    else
+    } 
+    else 
     {
       command_topic_ = sdf->GetElement("commandTopic")->Get<std::string>();
     }
 
     odometry_topic_ = "odom";
-    if (!sdf->HasElement("odometryTopic"))
+    if (!sdf->HasElement("odometryTopic")) 
     {
       ROS_WARN("ForceBasedPlugin (ns = %s) missing <odometryTopic>, "
-          "defaults to \"%s\"",
+          "defaults to \"%s\"", 
           robot_namespace_.c_str(), odometry_topic_.c_str());
-    }
-    else
+    } 
+    else 
     {
       odometry_topic_ = sdf->GetElement("odometryTopic")->Get<std::string>();
     }
 
     odometry_frame_ = "odom";
-    if (!sdf->HasElement("odometryFrame"))
+    if (!sdf->HasElement("odometryFrame")) 
     {
       ROS_WARN("ForceBasedPlugin (ns = %s) missing <odometryFrame>, "
           "defaults to \"%s\"",
           robot_namespace_.c_str(), odometry_frame_.c_str());
     }
-    else
+    else 
     {
       odometry_frame_ = sdf->GetElement("odometryFrame")->Get<std::string>();
     }
-
-
+    
+    
     torque_yaw_velocity_p_gain_ = 100.0;
     force_x_velocity_p_gain_ = 10000.0;
     force_y_velocity_p_gain_ = 10000.0;
-
+    
     if (sdf->HasElement("yaw_velocity_p_gain"))
       (sdf->GetElement("yaw_velocity_p_gain")->GetValue()->Get(torque_yaw_velocity_p_gain_));
 
@@ -102,19 +102,19 @@ namespace gazebo
 
     if (sdf->HasElement("y_velocity_p_gain"))
       (sdf->GetElement("y_velocity_p_gain")->GetValue()->Get(force_y_velocity_p_gain_));
-
+      
     ROS_INFO_STREAM("ForceBasedMove using gains: yaw: " << torque_yaw_velocity_p_gain_ <<
                                                  " x: " << force_x_velocity_p_gain_ <<
                                                  " y: " << force_y_velocity_p_gain_ << "\n");
 
     robot_base_frame_ = "base_footprint";
-    if (!sdf->HasElement("robotBaseFrame"))
+    if (!sdf->HasElement("robotBaseFrame")) 
     {
       ROS_WARN("ForceBasedPlugin (ns = %s) missing <robotBaseFrame>, "
           "defaults to \"%s\"",
           robot_namespace_.c_str(), robot_base_frame_.c_str());
-    }
-    else
+    } 
+    else 
     {
       robot_base_frame_ = sdf->GetElement("robotBaseFrame")->Get<std::string>();
     }
@@ -124,17 +124,16 @@ namespace gazebo
     this->link_ = parent->GetLink(robot_base_frame_);
 
     odometry_rate_ = 20.0;
-    if (!sdf->HasElement("odometryRate"))
+    if (!sdf->HasElement("odometryRate")) 
     {
       ROS_WARN("ForceBasedPlugin (ns = %s) missing <odometryRate>, "
           "defaults to %f",
           robot_namespace_.c_str(), odometry_rate_);
-    }
-    else
+    } 
+    else 
     {
       odometry_rate_ = sdf->GetElement("odometryRate")->Get<double>();
     }
-
     cmd_vel_time_out_ = 0.25;
     if (!sdf->HasElement("cmdVelTimeOut"))
     {
@@ -154,20 +153,23 @@ namespace gazebo
     } else {
       this->publish_odometry_tf_ = sdf->GetElement("publishOdometryTf")->Get<bool>();
     }
-
+ 
+#if (GAZEBO_MAJOR_VERSION >= 8)
+    last_odom_publish_time_ = parent_->GetWorld()->SimTime();
+    last_odom_pose_ = parent_->WorldPose();
+#else
     last_odom_publish_time_ = parent_->GetWorld()->GetSimTime();
     last_odom_pose_ = parent_->GetWorldPose();
-    x_ = 0.0;
-    y_ = 0.0;
-    rot_ = 0.0;
+#endif
+    x_ = 0;
+    y_ = 0;
+    rot_ = 0;
     alive_ = true;
-
-    ROS_INFO_STREAM("Plugin initialized with x: " << x_ << ", y: " << y_ << ", rot: " << rot_);
 
     odom_transform_.setIdentity();
 
     // Ensure that ROS has been initialized and subscribe to cmd_vel
-    if (!ros::isInitialized())
+    if (!ros::isInitialized()) 
     {
       ROS_FATAL_STREAM("ForceBasedPlugin (ns = " << robot_namespace_
         << "). A ROS node for Gazebo has not been initialized, "
@@ -177,7 +179,7 @@ namespace gazebo
     }
     rosnode_.reset(new ros::NodeHandle(robot_namespace_));
 
-    ROS_DEBUG("OCPlugin (%s) has started!",
+    ROS_DEBUG("OCPlugin (%s) has started!", 
         robot_namespace_.c_str());
 
     tf_prefix_ = tf::getPrefixParam(*rosnode_);
@@ -195,11 +197,11 @@ namespace gazebo
     odometry_pub_ = rosnode_->advertise<nav_msgs::Odometry>(odometry_topic_, 1);
 
     // start custom queue for diff drive
-    callback_queue_thread_ =
+    callback_queue_thread_ = 
       boost::thread(boost::bind(&GazeboRosForceBasedMove::QueueThread, this));
 
     // listen to the update event (broadcast every simulation iteration)
-    update_connection_ =
+    update_connection_ = 
       event::Events::ConnectWorldUpdateBegin(
           boost::bind(&GazeboRosForceBasedMove::UpdateChild, this));
 
@@ -209,8 +211,33 @@ namespace gazebo
   void GazeboRosForceBasedMove::UpdateChild()
   {
     boost::mutex::scoped_lock scoped_lock(lock);
+#if (GAZEBO_MAJOR_VERSION >= 8)
+    ignition::math::Pose3d pose = parent_->WorldPose();
+
+    //If no command received recenlty, set command velocity to zero
+    if ((parent_->GetWorld()->SimTime() - last_cmd_vel_time_) > cmd_vel_time_out_) {
+      x_ = 0.0;
+      y_ = 0.0;
+      rot_ = 0.0;
+    }
+
+    ignition::math::Vector3d angular_vel = parent_->WorldAngularVel();
+
+    double error = angular_vel.Z() - rot_;
+
+    link_->AddTorque(ignition::math::Vector3d(0.0, 0.0, -error * torque_yaw_velocity_p_gain_));
+
+    float yaw = pose.Rot().Yaw();
+
+    ignition::math::Vector3d linear_vel = parent_->RelativeLinearVel();
+
+    link_->AddRelativeForce(ignition::math::Vector3d((x_ - linear_vel.X())* force_x_velocity_p_gain_,
+                                                     (y_ - linear_vel.Y())* force_y_velocity_p_gain_,
+                                                     0.0));
+#else
     math::Pose pose = parent_->GetWorldPose();
 
+    //If no command received recenlty, set command velocity to zero
     if ((parent_->GetWorld()->GetSimTime() - last_cmd_vel_time_) > cmd_vel_time_out_) {
       x_ = 0.0;
       y_ = 0.0;
@@ -218,16 +245,19 @@ namespace gazebo
     }
 
     math::Vector3 angular_vel = parent_->GetWorldAngularVel();
-    link_->AddTorque(math::Vector3(0.0,
-                                   0.0,
-                                   (rot_ - angular_vel.z) * torque_yaw_velocity_p_gain_));
-    // float yaw = pose.rot.GetYaw();
+
+    double error = angular_vel.z - rot_;
+
+    link_->AddTorque(math::Vector3(0.0, 0.0, -error * torque_yaw_velocity_p_gain_));
+
+    float yaw = pose.rot.GetYaw();
 
     math::Vector3 linear_vel = parent_->GetRelativeLinearVel();
+
     link_->AddRelativeForce(math::Vector3((x_ - linear_vel.x)* force_x_velocity_p_gain_,
                                           (y_ - linear_vel.y)* force_y_velocity_p_gain_,
                                           0.0));
-
+#endif
     //parent_->PlaceOnNearestEntityBelow();
     //parent_->SetLinearVel(math::Vector3(
     //      x_ * cosf(yaw) - y_ * sinf(yaw),
@@ -236,8 +266,12 @@ namespace gazebo
     //parent_->SetAngularVel(math::Vector3(0, 0, rot_));
 
     if (odometry_rate_ > 0.0) {
+#if (GAZEBO_MAJOR_VERSION >= 8)
+      common::Time current_time = parent_->GetWorld()->SimTime();
+#else
       common::Time current_time = parent_->GetWorld()->GetSimTime();
-      double seconds_since_last_update =
+#endif
+      double seconds_since_last_update = 
         (current_time - last_odom_publish_time_).Double();
       if (seconds_since_last_update > (1.0 / odometry_rate_)) {
         publishOdometry(seconds_since_last_update);
@@ -256,20 +290,24 @@ namespace gazebo
   }
 
   void GazeboRosForceBasedMove::cmdVelCallback(
-      const geometry_msgs::Twist::ConstPtr& cmd_msg)
+      const geometry_msgs::Twist::ConstPtr& cmd_msg) 
   {
     boost::mutex::scoped_lock scoped_lock(lock);
     x_ = cmd_msg->linear.x;
     y_ = cmd_msg->linear.y;
     rot_ = cmd_msg->angular.z;
-    last_cmd_vel_time_= parent_->GetWorld()->GetSimTime();
 
+#if (GAZEBO_MAJOR_VERSION >= 8)
+    last_cmd_vel_time_= parent_->GetWorld()->SimTime();
+#else
+    last_cmd_vel_time_= parent_->GetWorld()->GetSimTime();
+#endif
   }
 
   void GazeboRosForceBasedMove::QueueThread()
   {
     static const double timeout = 0.01;
-    while (alive_ && rosnode_->ok())
+    while (alive_ && rosnode_->ok()) 
     {
       queue_.callAvailable(ros::WallDuration(timeout));
     }
@@ -280,9 +318,19 @@ namespace gazebo
 
     ros::Time current_time = ros::Time::now();
     std::string odom_frame = tf::resolve(tf_prefix_, odometry_frame_);
-    std::string base_footprint_frame =
+    std::string base_footprint_frame = 
       tf::resolve(tf_prefix_, robot_base_frame_);
 
+#if (GAZEBO_MAJOR_VERSION >= 8)
+    ignition::math::Vector3d angular_vel = parent_->RelativeAngularVel();
+    ignition::math::Vector3d linear_vel = parent_->RelativeLinearVel();
+
+    odom_transform_= odom_transform_ * this->getTransformForMotion(linear_vel.X(), angular_vel.Z(), step_time);
+
+    tf::poseTFToMsg(odom_transform_, odom_.pose.pose);
+    odom_.twist.twist.angular.z = angular_vel.Z();
+    odom_.twist.twist.linear.x  = linear_vel.X();
+#else
     math::Vector3 angular_vel = parent_->GetRelativeAngularVel();
     math::Vector3 linear_vel = parent_->GetRelativeLinearVel();
 
@@ -291,6 +339,7 @@ namespace gazebo
     tf::poseTFToMsg(odom_transform_, odom_.pose.pose);
     odom_.twist.twist.angular.z = angular_vel.z;
     odom_.twist.twist.linear.x  = linear_vel.x;
+#endif
 
     odom_.header.stamp = current_time;
     odom_.header.frame_id = odom_frame;
@@ -301,14 +350,18 @@ namespace gazebo
           tf::StampedTransform(odom_transform_, current_time, odom_frame,
               base_footprint_frame));
     }
-
+    
     odom_.pose.covariance[0] = 0.001;
     odom_.pose.covariance[7] = 0.001;
     odom_.pose.covariance[14] = 1000000000000.0;
     odom_.pose.covariance[21] = 1000000000000.0;
     odom_.pose.covariance[28] = 1000000000000.0;
-
+    
+#if (GAZEBO_MAJOR_VERSION >= 8)
+    if (std::abs(angular_vel.Z()) < 0.0001) {
+#else
     if (std::abs(angular_vel.z) < 0.0001) {
+#endif
       odom_.pose.covariance[35] = 0.01;
     }else{
       odom_.pose.covariance[35] = 100.0;
@@ -320,7 +373,11 @@ namespace gazebo
     odom_.twist.covariance[21] = 1000000000000.0;
     odom_.twist.covariance[28] = 1000000000000.0;
 
+#if (GAZEBO_MAJOR_VERSION >= 8)
+    if (std::abs(angular_vel.Z()) < 0.0001) {
+#else
     if (std::abs(angular_vel.z) < 0.0001) {
+#endif
       odom_.twist.covariance[35] = 0.01;
     }else{
       odom_.twist.covariance[35] = 100.0;
@@ -359,4 +416,3 @@ namespace gazebo
 
   GZ_REGISTER_MODEL_PLUGIN(GazeboRosForceBasedMove)
 }
-
