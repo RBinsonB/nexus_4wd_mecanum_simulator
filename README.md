@@ -8,3 +8,4 @@ ROS Repository for the robot description and gazebo simulation of the 4WD Mecanu
 * Proper namespace integration for multi-robot
 * Integrate range sensors
 * Simulate odometry inacurracy
+* Add wheel velocity controller (only for visual feedback)
