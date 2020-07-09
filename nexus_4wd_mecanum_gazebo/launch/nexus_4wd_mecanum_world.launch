@@ -3,7 +3,7 @@
   <arg name="use_sim_time" default="true" />
   <arg name="gui" default="true" />
   <arg name="headless" default="false" />
-  <arg name="world_name" default="$(find ridgeback_gazebo)/worlds/nexus_4wd_mecanum.world" />
+  <!-- <arg name="world_name" default="$(find sml_nexus_gazebo)/worlds/nexus_4wd_mecanum.world" /> -->
 
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="debug" value="0" />
