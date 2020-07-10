@@ -90,9 +90,9 @@ namespace gazebo
     }
     
     
-    torque_yaw_velocity_p_gain_ = 100.0;
-    force_x_velocity_p_gain_ = 10000.0;
-    force_y_velocity_p_gain_ = 10000.0;
+    torque_yaw_velocity_p_gain_ = 1.0;
+    force_x_velocity_p_gain_ = 15.0;
+    force_y_velocity_p_gain_ = 15.0;
     
     if (sdf->HasElement("yaw_velocity_p_gain"))
       (sdf->GetElement("yaw_velocity_p_gain")->GetValue()->Get(torque_yaw_velocity_p_gain_));
@@ -153,6 +153,18 @@ namespace gazebo
     } else {
       this->publish_odometry_tf_ = sdf->GetElement("publishOdometryTf")->Get<bool>();
     }
+
+    max_x_velocity = 0.6;
+    if (sdf->HasElement("max_x_velocity"))
+      (sdf->GetElement("max_x_velocity")->GetValue()->Get(max_x_velocity));
+
+    max_y_velocity = 0.6;
+    if (sdf->HasElement("max_y_velocity"))
+      (sdf->GetElement("max_y_velocity")->GetValue()->Get(max_y_velocity));
+
+    max_yaw_velocity = 0.5;
+    if (sdf->HasElement("max_yaw_velocity"))
+      (sdf->GetElement("max_yaw_velocity")->GetValue()->Get(max_yaw_velocity));
  
 #if (GAZEBO_MAJOR_VERSION >= 8)
     last_odom_publish_time_ = parent_->GetWorld()->SimTime();
@@ -223,7 +235,7 @@ namespace gazebo
 
     ignition::math::Vector3d angular_vel = parent_->WorldAngularVel();
 
-    double error = angular_vel.Z() - rot_;
+    double error = angular_vel.Z() - std::min(rot_, max_yaw_velocity);
 
     link_->AddTorque(ignition::math::Vector3d(0.0, 0.0, -error * torque_yaw_velocity_p_gain_));
 
@@ -231,9 +243,9 @@ namespace gazebo
 
     ignition::math::Vector3d linear_vel = parent_->RelativeLinearVel();
 
-    link_->AddRelativeForce(ignition::math::Vector3d((x_ - linear_vel.X())* force_x_velocity_p_gain_,
-                                                     (y_ - linear_vel.Y())* force_y_velocity_p_gain_,
-                                                     0.0));
+    link_->AddRelativeForce(ignition::math::Vector3d((std::min(x_, max_x_velocity) - linear_vel.X())* force_x_velocity_p_gain_,
+                                                     (std::min(y_, max_x_velocity) - linear_vel.Y())* force_y_velocity_p_gain_,
+                                                      0.0));
 #else
     math::Pose pose = parent_->GetWorldPose();
 
@@ -246,7 +258,7 @@ namespace gazebo
 
     math::Vector3 angular_vel = parent_->GetWorldAngularVel();
 
-    double error = angular_vel.z - rot_;
+    double error = angular_vel.z - std::min(rot_, max_yaw_velocity);
 
     link_->AddTorque(math::Vector3(0.0, 0.0, -error * torque_yaw_velocity_p_gain_));
 
@@ -254,9 +266,9 @@ namespace gazebo
 
     math::Vector3 linear_vel = parent_->GetRelativeLinearVel();
 
-    link_->AddRelativeForce(math::Vector3((x_ - linear_vel.x)* force_x_velocity_p_gain_,
-                                          (y_ - linear_vel.y)* force_y_velocity_p_gain_,
-                                          0.0));
+    link_->AddRelativeForce(math::Vector3((std::min(x_, max_x_velocity) - linear_vel.x)* force_x_velocity_p_gain_,
+                                          (std::min(y_, max_x_velocity) - linear_vel.y)* force_y_velocity_p_gain_,
+                                           0.0));
 #endif
     //parent_->PlaceOnNearestEntityBelow();
     //parent_->SetLinearVel(math::Vector3(

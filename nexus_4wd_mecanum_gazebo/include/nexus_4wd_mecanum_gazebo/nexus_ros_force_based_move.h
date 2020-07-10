@@ -29,6 +29,7 @@
 #include <boost/bind.hpp>
 #include <boost/thread.hpp>
 #include <map>
+#include <algorithm>
 
 #include <gazebo/common/common.hh>
 #include <gazebo/physics/physics.hh>
@@ -113,6 +114,10 @@ namespace gazebo {
       double torque_yaw_velocity_p_gain_;
       double force_x_velocity_p_gain_;
       double force_y_velocity_p_gain_;
+
+      double max_x_velocity;
+      double max_y_velocity;
+      double max_yaw_velocity;
 
   };
 
