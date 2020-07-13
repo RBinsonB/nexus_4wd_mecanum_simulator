@@ -6,7 +6,6 @@
     </plugin>-->
 
     <plugin name="nexus_ros_force_based_move" filename="libnexus_ros_force_based_move.so">
-      <robotNamespace>/</robotNamespace>
       <commandTopic>cmd_vel</commandTopic>
       <odometryTopic>odom</odometryTopic>
       <odometryFrame>odom</odometryFrame>
