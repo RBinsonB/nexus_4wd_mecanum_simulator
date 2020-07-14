@@ -13,12 +13,19 @@
     <!-- <arg name="world_name" value="$(arg world_name)" /> -->
     <arg name="paused" value="false"/>
   </include>
+  
+  <!-- spawn "nexus1" robot -->
+  <include file="$(find nexus_4wd_mecanum_gazebo)/launch/spawn_one_nexus_4wd_mecanum.launch">
+    <arg name="robot_name" value="nexus1" />
+    <arg name="pose_x" value="0" />
+    <arg name="pose_y" value="0" />
+  </include>
 
-<!-- Load robot description -->
-<include file="$(find nexus_4wd_mecanum_description)/launch/nexus_4wd_mecanum_description.launch" />
-
-  <!-- Spawn the robot -->
-  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
-        args="-urdf -model nexus_4wd_mecanum -param robot_description -x 0 -y 0 -z 0.5" />
+  <!-- spawn "nexus2" robot -->
+  <include file="$(find nexus_4wd_mecanum_gazebo)/launch/spawn_one_nexus_4wd_mecanum.launch">
+    <arg name="robot_name" value="nexus2" />
+    <arg name="pose_x" value="1" />
+    <arg name="pose_y" value="1" />
+  </include>
 
 </launch>

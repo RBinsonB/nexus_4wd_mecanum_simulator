@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="robot_name" default="nexus0" />
+  <arg name="pose_x" default="0" />
+  <arg name="pose_y" default="0" />
+
+  <group ns="$(arg robot_name)">
+    <param name="tf_prefix" value="$(arg robot_name)" />
+    <!-- Load robot description -->
+    <include file="$(find nexus_4wd_mecanum_description)/launch/nexus_4wd_mecanum_description.launch" />
+
+    <!-- Spawn the robot -->
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
+          args="-urdf -model $(arg robot_name) -param robot_description -x $(arg pose_x) -y $(arg pose_y) -z 0.5" />
+  </group>
+</launch>
