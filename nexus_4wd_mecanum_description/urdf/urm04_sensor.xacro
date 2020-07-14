@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="urm04_sensor" params="frame_name ros_topic update_rate min_range max_range horizontal_field_of_view vertical_field_of_view ray_count">
+
+    <gazebo reference="${frame_name}">
+      <sensor type="ray" name="${frame_name}">
+        <always_on>true</always_on>
+        <update_rate>${update_rate}</update_rate>
+        <pose>0 0 0 0 0 0</pose>
+        <visualize>false</visualize>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>${ray_count}</samples>
+              <resolution>1</resolution>
+              <min_angle>-${horizontal_field_of_view/2}</min_angle>
+              <max_angle> ${horizontal_field_of_view/2}</max_angle>
+            </horizontal>
+            <vertical>
+              <samples>${ray_count}</samples>
+              <resolution>1</resolution>
+              <min_angle>-${vertical_field_of_view/2}</min_angle>
+              <max_angle> ${vertical_field_of_view/2}</max_angle>
+            </vertical>
+          </scan>
+          <range>
+            <min>${min_range}</min>
+            <max>${max_range}</max>
+            <resolution>0.01</resolution>
+          </range>
+        </ray>
+
+        <plugin name="gazebo_ros_${frame_name}" filename="libhector_gazebo_ros_sonar.so">
+          <gaussianNoise>0.005</gaussianNoise>
+          <topicName>${ros_topic}</topicName>
+          <frameId>${frame_name}</frameId>
+        </plugin>
+
+      </sensor>
+
+    </gazebo>
+
+  </xacro:macro>
+</robot>
+
