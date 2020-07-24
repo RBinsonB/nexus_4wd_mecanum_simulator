@@ -342,6 +342,7 @@ namespace gazebo
     tf::poseTFToMsg(odom_transform_, odom_.pose.pose);
     odom_.twist.twist.angular.z = angular_vel.Z();
     odom_.twist.twist.linear.x  = linear_vel.X();
+    odom_.twist.twist.linear.y  = linear_vel.Y();
 #else
     math::Vector3 angular_vel = parent_->GetRelativeAngularVel();
     math::Vector3 linear_vel = parent_->GetRelativeLinearVel();
@@ -351,6 +352,7 @@ namespace gazebo
     tf::poseTFToMsg(odom_transform_, odom_.pose.pose);
     odom_.twist.twist.angular.z = angular_vel.z;
     odom_.twist.twist.linear.x  = linear_vel.x;
+    odom_.twist.twist.linear.y  = linear_vel.y;
 #endif
 
     odom_.header.stamp = current_time;
